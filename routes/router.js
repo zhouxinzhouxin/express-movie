@@ -1,69 +1,45 @@
 let express = require('express');
+let _=require('underscore');
 let router = express.Router();
+let Movie=require('../models/movie');
 
 exports.index = router.get('/', function(req, res, next){
-    res.render('index', {
-        title: 'imooc 首页',
-        movies: [
-            {
-                title: '钢铁侠',
-                _id: 1,
-                poster: 'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5'
-            },{
-                title: '钢铁侠',
-                _id: 2,
-                poster: 'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5'
-            },{
-                title: '钢铁侠',
-                _id: 3,
-                poster: 'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5'
-            },{
-                title: '钢铁侠',
-                _id: 4,
-                poster: 'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5'
-            },{
-                title: '钢铁侠',
-                _id: 5,
-                poster: 'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5'
-            }
-        ]
-    })
+    Movie.fetch(function (err, movies) {
+        if(err){
+            console.log(err)
+        }
+        res.render('index',{
+            title:'电 影 首 页',
+            movies:movies
+        })
+    });
 });
 
 exports.list = router.get('/admin/list', function(req, res, next){
-    res.render('list', {
-        title: 'imooc 列表',
-        movies: [{
-            title: '钢铁侠',
-            _id: 1,
-            doctor: 'zhouxin',
-            langusge: 'English',
-            year: 2018,
-            country: 'USA',
-            flash: 'http://player.youku.com/player.php/sid/XNjA1Njc0NTUy/v.swf'
-        }]
-    })
+    Movie.fetch(function (err, movies) {
+        if(err){
+            console.log(err)
+        }
+        res.render('list',{
+            title:'电 影 列 表 页',
+            movies:movies
+        })
+    });
 });
 
-exports.detail = router.get('/movie:id', function(req, res, next){
-    res.render('detail', {
-        title: 'imooc 详情页',
-        movie: {
-            doctor: 'zhouxin',
-            country: 'USA',
-            title: '钢铁侠',
-            year: '2018',
-            poster: 'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5',
-            language: 'English',
-            flash: 'http://player.youku.com/player.php/sid/XNjA1Njc0NTUy/v.swf',
-            summary: '反间谍法克己奉公开放接口即可根据反馈；国家可根据看了几个六块腹肌轮廓风口浪尖考六级考六级过了快放假了可敬可嘉历尽甘苦萝莉控股份离开过'
-        }
-    })
-});
+// exports.detail = router.use(function(req, res, next){
+//     let id =req.params.id;
+//     Movie.findById(id, function (err,movie) {
+//         res.render('detail',{
+//             title:'imooc ',
+//             movie:movie
+//         })
+//     })
+// });
 
 exports.admin = router.get('/admin/movie', function (req, res, next){
     res.render('admin', {
-        title: 'imooc 登陆',
+        title: '后 台 录 入 页',
         movie: {
             doctor: '',
             country: '',
@@ -75,4 +51,53 @@ exports.admin = router.get('/admin/movie', function (req, res, next){
             summary: ''
         }
     })
+});
+
+exports.new = router.post('/admin/movie/new',function (req,res) {
+    let id = req.body.movie._id;
+    let movieObj =req.body.movie;
+    let _movie;
+    if(id !== 'undefined'){
+        Movie.findById(id,function (err, movie) {
+            if (err){
+                console.log(err)
+            }
+            _movie=_.extend(movie,movieObj);
+            _movie.save(function (err, movie) {
+                if(err){
+                    console.log(err)
+                }
+                res.redirect('/movie/'+movie._id);
+            })
+        })
+    }else {
+        _movie=new Movie({
+            doctor:movieObj.doctor,
+            title:movieObj.title,
+            country:movieObj.country,
+            lan:movieObj.lan,
+            year:movieObj.year,
+            poster:movieObj.poster,
+            summary:movieObj.summary,
+            flash:movieObj.flash
+        });
+        _movie.save(function (err, movie) {
+            if(err){
+                console.log(err)
+            }
+            res.redirect('/movie/'+movie._id);
+        })
+    }
+});
+
+exports.update = router.get('/admin/update/:id',function (req, res) {
+    let id=req.params.id;
+    if(id){
+        Movie.findById(id,function (err, movie) {
+            res.render('admin',{
+                title:'后台更新',
+                movie:movie
+            })
+        })
+    }
 });

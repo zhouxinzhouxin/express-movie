@@ -1,0 +1,22 @@
+{
+  "name": "movie",
+  "homepage": "https://github.com/zhouxinzhouxin/express-movie",
+  "authors": [
+    "zhouxin <1138881738@qq.com>"
+  ],
+  "description": "",
+  "main": "app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.3.1"
+  }
+}

@@ -5,11 +5,11 @@ block content
             table.table.table-hover.table-bordered
                 thead
                     tr
-                        th 電影名稱
-                        th 導演
-                        th 國家
+                        th 电影名称
+                        th 导演
+                        th 国家
                         th 上映年份
-                        //th 錄入時間
+                        th 录入时间
                         th 查看
                         th 更新
                         th 刪除
@@ -20,9 +20,9 @@ block content
                             td #{item.doctor}
                             td #{item.country}
                             td #{item.year}
-                            //td #{moment(item.meta.updateAt).format('DD/MM/YYYY')}
+                            td #{moment(item.meta.updateAt).format('DD/MM/YYYY')}
                             td: a(target="_blank", href="../movie/#{item.id}") 查看
                             td: a(target="_blank", href="../admin/update/#{item.id}") 修改
                             td
                                 button.btn.btn-danger.del(type="button", data-id="#{item._id}") 刪除
-    script(src="/static/js/admin.js")
+    script(src="/js/admin.js")

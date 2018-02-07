@@ -12,3 +12,7 @@ block content
                             h3 #{item.title}
                             p: a.btn.btn-primary(href="/movie/#{item._id}", role="button")
                                     观看预告片
+            .col-md-2
+                .last
+                    a(href='/admin/movie', class="add-movie")
+                    a(href='/admin/list', class="list-movie")

@@ -1,0 +1,34 @@
+.last{
+}
+.add-movie,.list-movie{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 120px;
+    margin:10px 0;
+    color: rgb(221, 221, 221);
+    border: 1px solid rgb(221, 221, 221);
+}
+.add-movie::before,
+.add-movie::after{
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.add-movie::before{
+    width: 50%;
+    border-top: 1px solid rgb(221, 221, 221);
+}
+.add-movie::after{
+    height: 50%;
+    border-left: 1px solid rgb(221, 221, 221);
+}
+.list-movie::after{
+    content: '电影列表';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}
